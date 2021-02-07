@@ -1,0 +1,9 @@
+-: 
+    InfiniDD
+    Author:
+        Museus (Discord: Museus#7777)
+
+    Gives the player an "Infinite DD" that will result in a delayed
+    resurrection after dying.
+:-
+Import "InfiniDD.lua"
