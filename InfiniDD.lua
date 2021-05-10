@@ -11,7 +11,7 @@ ModUtil.RegisterMod("InfiniDD")
 local config = {
     Immortal = true, -- If true, player will have an InfiniDD
     TimePenalty = 30, -- Duration in seconds to make player wait
-    HealAmount = 0.5, -- Amount of health to heal player as decimal. (1 == 100%)
+    HealAmount = 1.0, -- Amount of health to heal player as decimal. (1 == 100%)
 }
 InfiniDD.config = config
 
@@ -72,7 +72,7 @@ ModUtil.WrapBaseFunction("InitHeroLastStands", function(baseFunc, newHero)
             IncreaseMax = true,
             Icon = "ExtraLifeReplenish",
             WeaponName = "LastStandMetaUpgradeShield",
-            HealFraction = 1,
+            HealFraction = InfiniDD.config.HealAmount,
             Silent = true
         })
     end
@@ -99,4 +99,13 @@ ModUtil.WrapBaseFunction("PlayerLastStandPresentationEnd", function( baseFunc )
     end
 
     baseFunc()
+end, InfiniDD)
+
+
+ModUtil.WrapBaseWithinFunction("NoLastStandRegeneration", "HasLastStand", function( baseFunc, unit )
+    if TableLength(unit.LastStands) == 1 and unit.LastStands[1].Name == "InfiniDD" then
+        return false
+    else
+        return baseFunc(unit)
+    end
 end, InfiniDD)
